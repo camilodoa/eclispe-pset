@@ -6,20 +6,34 @@
 
 /* Question 3 */
 
-/* Prompt:
+/*
+Prompt:
 The nine digits 1-9 are used to form one three-digit and three two-digit
 numbers so that the product of the three digit number and the first two-digit
 number is the same as the product of the second and third two-digit
 numbers. E.g. 158 multiplied by 23 is 3,634, and 79 multiplied by 46 is also
 3,634. Write an eclipse program to find all such arrangements of digits, and
 one that will find the arrangement with the largest product. (Hint:
-maximizing X is the same as minimizing -X) */
+maximizing X is the same as minimizing -X)
+*/
+
+/*
+Found solution:
+
+*/
 
 question3(Numbers, N) :-
   % N is the product that we are maximizing
   N :: 0..10000,
   setup(Numbers, N),
   solve(Numbers, N),
+  printN(Numbers, N).
+
+question3_2(Numbers, N) :-
+  % N is the product that we are maximizing
+  N :: 0..10000,
+  setup(Numbers, N),
+  solve2(Numbers, N),
   printN(Numbers, N).
 
 setup(Numbers, N) :-
@@ -38,6 +52,11 @@ solve(Numbers, N) :-
   % Our solving function
   % THERE IS AN ERROR HERE, IT SHOULD BE -N BUT IDK HOW TO GET THAT TO WORK
   minimize(labeling(Numbers), N).
+
+solve2(Numbers, N) :-
+  % Our solving function
+  % THERE IS AN ERROR HERE, IT SHOULD BE -N BUT IDK HOW TO GET THAT TO WORK
+  minimize(labeling(Numbers), (N * -1)).
 
 printN(Numbers, N) :-
   Numbers = [X, Y1, Y2, Y3],
