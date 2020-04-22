@@ -72,7 +72,6 @@ question3_2(Numbers, N) :-
 solve2(Numbers, N1) :-
   % Our solving function
   % Supposed to return the values for the largest value of N.
-  % THERE IS AN ERROR HERE, IT SHOULD BE -N BUT IDK HOW TO GET THAT TO WORK
   minimize(labeling(Numbers), N1).
 
 printN2(Numbers, N) :-

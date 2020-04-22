@@ -80,30 +80,40 @@ dislike(sue, jane).
 dislike(barry, frank).
 dislike(ellen, joan).
 
-question10(Invitees) :-
-  setup(Invitees),
+question10(Invitees, N) :-
+  N :: 0..12,
+  Day :: friday..saturday..sunday, % Not sure if this syntax is correct
+  setup(Invitees, N, Day),
   solve(Invitees),
   printI(Invitees).
 
-setup(Invitees) :-
-  Invitees = [Tom, Fred, Billy, Tim, Frank, Barry, Sue, Jane, Betty, Ellen, Joan, Betsy],
+setup(Invitees, N) :-
+  Invitees = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12],
   Invitees :: 0..1, % Everyone is either invited or not
+
+  % Restriction on how many people are invited
+  X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 + X9 + X10 + X11 + X12 #= N,
+  % You could also do this by having the Invitees be a dynamically sized list of
+  % guests but I have no idea how to do that.
+
+  % Every invitee must be available on a particular day
+
   /*More constraints here*/.
 
 solve(Invitees) :-
   labeling(Invitees).
 
 printI(Invitees) :-
-  Invitees = [Tom, Fred, Billy, Tim, Frank, Barry, Sue, Jane, Betty, Ellen, Joan, Betsy],
-  printf("Tom is %3d", [Tom]),
-  printf("Fred is %3d", [Fred]),
-  printf("Billy is %3d", [Billy]),
-  printf("Tim is %3d", [Tim]),
-  printf("Frank is %3d", [Frank]),
-  printf("Barry is %3d", [Barry]),
-  printf("Sue is %3d", [Sue]),
-  printf("Jane is %3d", [Jane]),
-  printf("Betty is %3d", [Betty]),
-  printf("Ellen is %3d", [Ellen]),
-  printf("Joan is %3d", [Joan]),
-  printf("Betsy is %3d", [Betsy]).
+  Invitees = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12],
+  printf("X1 is %3d", [X1]),
+  printf("X2 is %3d", [X2]),
+  printf("X3 is %3d", [X3]),
+  printf("X4 is %3d", [X4]),
+  printf("X5 is %3d", [X5]),
+  printf("X6 is %3d", [X6]),
+  printf("X7 is %3d", [X7]),
+  printf("X8 is %3d", [X8]),
+  printf("X9 is %3d", [X9]),
+  printf("X10 is %3d", [X10]),
+  printf("X11 is %3d", [X11]),
+  printf("X12 is %3d", [X12]).
