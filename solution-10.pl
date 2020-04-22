@@ -79,3 +79,31 @@ dislike(billy, fred).
 dislike(sue, jane).
 dislike(barry, frank).
 dislike(ellen, joan).
+
+question10(Invitees) :-
+  setup(Invitees),
+  solve(Invitees),
+  printI(Invitees).
+
+setup(Invitees) :-
+  Invitees = [Tom, Fred, Billy, Tim, Frank, Barry, Sue, Jane, Betty, Ellen, Joan, Betsy],
+  Invitees :: 0..1, % Everyone is either invited or not
+  /*More constraints here*/.
+
+solve(Invitees) :-
+  labeling(Invitees).
+
+printI(Invitees) :-
+  Invitees = [Tom, Fred, Billy, Tim, Frank, Barry, Sue, Jane, Betty, Ellen, Joan, Betsy],
+  printf("Tom is %3d", [Tom]),
+  printf("Fred is %3d", [Fred]),
+  printf("Billy is %3d", [Billy]),
+  printf("Tim is %3d", [Tim]),
+  printf("Frank is %3d", [Frank]),
+  printf("Barry is %3d", [Barry]),
+  printf("Sue is %3d", [Sue]),
+  printf("Jane is %3d", [Jane]),
+  printf("Betty is %3d", [Betty]),
+  printf("Ellen is %3d", [Ellen]),
+  printf("Joan is %3d", [Joan]),
+  printf("Betsy is %3d", [Betsy]).

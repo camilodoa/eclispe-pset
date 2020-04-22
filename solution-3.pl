@@ -18,8 +18,11 @@ maximizing X is the same as minimizing -X)
 */
 
 /*
-Found solution:
+Usage
 
+question3_1(Numbers, N).
+
+question3_2(Numbers, N).
 */
 
 question3_1(Numbers, N) :-
