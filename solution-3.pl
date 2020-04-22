@@ -22,19 +22,13 @@ Found solution:
 
 */
 
-question3(Numbers, N) :-
+question3_1(Numbers, N) :-
+  % First solution (all of them)
   % N is the product that we are maximizing
   N :: 0..10000,
   setup(Numbers, N),
-  solve(Numbers, N),
-  printN(Numbers, N).
-
-question3_2(Numbers, N) :-
-  % N is the product that we are maximizing
-  N :: 0..10000,
-  setup(Numbers, N),
-  solve2(Numbers, N),
-  printN(Numbers, N).
+  solve1(Numbers, N),
+  printN1(Numbers, N).
 
 setup(Numbers, N) :-
   % Our constraints
@@ -48,17 +42,37 @@ setup(Numbers, N) :-
   X * Y1 #= N,
   Y2 * Y3 #= N.
 
-solve(Numbers, N) :-
+solve1(Numbers, N) :-
   % Our solving function
-  % THERE IS AN ERROR HERE, IT SHOULD BE -N BUT IDK HOW TO GET THAT TO WORK
-  minimize(labeling(Numbers), N).
+  % Returns all solutions (by pressing more).
+  labeling(Numbers).
 
-solve2(Numbers, N) :-
+printN1(Numbers, N) :-
+  Numbers = [X, Y1, Y2, Y3],
+  printf("First number is %3d\n", [X]),
+  printf("Second number is %3d\n", [Y1]),
+  printf("Third number is %3d\n", [Y2]),
+  printf("Fourth number is %3d\n", [Y3]),
+  printf("Product is %3d\n\n", [N]).
+
+
+question3_2(Numbers, N) :-
+  % Second solution (just the largest N)
+  % N is the product that we are maximizing
+  N :: 0..10000,
+  setup(Numbers, N),
+  N1 :: -10000..0,
+  N1 #= -N,
+  solve2(Numbers, N1),
+  printN2(Numbers, N).
+
+solve2(Numbers, N1) :-
   % Our solving function
+  % Supposed to return the values for the largest value of N.
   % THERE IS AN ERROR HERE, IT SHOULD BE -N BUT IDK HOW TO GET THAT TO WORK
-  minimize(labeling(Numbers), (N * -1)).
+  minimize(labeling(Numbers), N1).
 
-printN(Numbers, N) :-
+printN2(Numbers, N) :-
   Numbers = [X, Y1, Y2, Y3],
   printf("First number is %3d\n", [X]),
   printf("Second number is %3d\n", [Y1]),
