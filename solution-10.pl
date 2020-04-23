@@ -100,7 +100,7 @@ setup(Invitees, N) :-
   length(Invitees, N),
   % Everyone must be available on the same day
   Day :: [friday, saturday, sunday],
-  foreach((member(Person, Invitees)), available(Person, Day)),
+  foreach(member(Person, Invitees), available(Person, Day)),
 
   % There has to be an interesting person
   interesting(InterestingPersons),
@@ -115,7 +115,7 @@ setup(Invitees, N) :-
   % Number of men and women is the same
 
   % Everyone knows someone else
-
+  foreach(member(Person1, Invitees), member(Person2, Invitees), know(Person1, Person2)),
   % No one dislikes anyone else
 
   % No mixing republicans and democrats
