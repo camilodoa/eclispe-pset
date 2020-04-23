@@ -25,6 +25,12 @@ represented one way)
 men([tom, fred, billy, tim, frank, barry]).
 women([sue, jane, betty, ellen, joan, betsy]).
 
+isman(X) :-
+  men(X).
+
+iswoman(X) :-
+  women(X).
+
 funny([tom, sue, tim, ellen]).
 interesting([fred, betty, frank, betsy]).
 
@@ -86,9 +92,16 @@ question10(Invitees) :-
   solve(Invitees),
   printI(Invitees).
 
+countMen(People, N) :-
+  men(Men), intersection(People, Men, X), length(X, N).
+
+countWomen(People, N) :-
+  men(Women), intersection(People, Men, X), length(X, N).
+
 setup(Invitees) :-
   % Number of people to invite
-  N :: 1..12,
+  N :: [2, 4, 6, 8, 10, 12], % Because there must be an equal amount of women and men
+
   % Restrict number of people invited to N
   length(Invitees, N),
   % Invitees are the people we know
@@ -110,14 +123,10 @@ setup(Invitees) :-
   member(FunnyInvitee, Invitees),
   member(FunnyInvitee, FunnyPersons),
 
-  % Make a list of all the men
-  include(men(X), Invitees, Men),
-  % Make a list of all the women
-  include(women(Y), Invitees, Women),
   % Number of women and men is the same
-  length(Men, NumMen),
-  length(Women, NumWomen),
-  NumMen #= NumWomen,
+  M = N/2,
+  countMen(Invitees, M),
+  countWomen(Invitees, M),
 
   % Everyone knows someone else
   (foreach(LonelyPerson, Invitees) do member(AnotherLonelyPerson, Invitees), know(LonelyPerson, AnotherLonelyPerson)),
@@ -133,4 +142,4 @@ solve(Invitees) :-
   search(Invitees, 0, input_order, indomain, complete, []).
 
 printI(Invitees) :-
-  foreach(member(Invitee, Invitees), printf("%3d is invited", [Invitee])).
+  foreach(member(Invitee, Invitees), printf("%t is invited\n", [Invitee])).
