@@ -25,12 +25,6 @@ represented one way)
 men([tom, fred, billy, tim, frank, barry]).
 women([sue, jane, betty, ellen, joan, betsy]).
 
-isman(X) :-
-  men(X).
-
-iswoman(X) :-
-  women(X).
-
 funny([tom, sue, tim, ellen]).
 interesting([fred, betty, frank, betsy]).
 
