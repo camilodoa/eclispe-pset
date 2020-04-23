@@ -80,12 +80,12 @@ dislike(sue, jane).
 dislike(barry, frank).
 dislike(ellen, joan).
 
-question10(Invitees, N, Day) :-
-  setup(Invitees, N, Day),
-  solve(Invitees, N, Day),
-  printI(Invitees, N, Day).
+question10(Invitees) :-
+  setup(Invitees),
+  solve(Invitees),
+  printI(Invitees).
 
-setup(Invitees, N) :-
+setup(Invitees) :-
   % Number of people to invite
   N :: 1..12,
   % Restrict number of people invited to N
@@ -97,7 +97,7 @@ setup(Invitees, N) :-
 
   % Everyone must be available on the same day
   Day :: [friday, saturday, sunday],
-  foreach(member(Person, Invitees), available(Person, Day)),
+  (foreach(Person, Invitees) do available(Person, Day)),
 
   % There has to be an interesting person
   interesting(InterestingPersons),
@@ -109,20 +109,28 @@ setup(Invitees, N) :-
   member(FunnyInvitee, Invitees),
   member(FunnyInvitee, FunnyPersons),
 
-  % Number of men and women is the same
-
+  % Make a list of all the men
+  (foreach(X,Invitees), fromto(Men,Out,In,[]) do
+    men(X) -> Out=[X|In] ; Out=In).
+  % Make a list of all the women
+  (foreach(Y,Invitees), fromto(Women,Out,In,[]) do
+    women(Y) -> Out=[Y|In] ; Out=In).
+  % Number of women and men is the same
+  length(Men, NumMen),
+  length(Women, NumWomen),
+  NumMen #= NumWomen,
 
   % Everyone knows someone else
-  foreach(member(Person1, Invitees), member(Person2, Invitees), know(Person1, Person2)),
+  (foreach(LonelyPerson, Invitees) do member(AnotherLonelyPerson, Invitees), know(LonelyPerson, AnotherLonelyPerson)),
 
   % No one dislikes anyone else
-  foreach(member(Person1, Invitees), member(Person2, Invitees), not(dislike(Person1, Person2))),
+  (foreach(HatefulPerson, Invitees) do (foreach(OtherHatefulPerson, Invitees) do not(dislike(HatefulPerson, OtherHatefulPerson)))),
   % No mixing republicans and democrats
   PoliticalLeaning :: [democrat, republican],
-  foreach(member(Person, Invitees), member(PoliticalLeaning, Person)).
+  (foreach(PoliticalPerson, Invitees) do member(PoliticalLeaning, PoliticalPerson)).
 
 solve(Invitees) :-
   labeling(Invitees).
 
 printI(Invitees) :-
-  foreach(member(Invitee, Invitees), printf("%3d is invited", [Invitee]))..
+  foreach(member(Invitee, Invitees), printf("%3d is invited", [Invitee])).
