@@ -3,6 +3,7 @@
 :- lib(lists).
 :- lib(fd).
 :- lib(fd_search).
+:- use_module(library(apply)).
 
 /* Question 10 */
 
@@ -110,11 +111,9 @@ setup(Invitees) :-
   member(FunnyInvitee, FunnyPersons),
 
   % Make a list of all the men
-  (foreach(X,Invitees), fromto(Men,Out,In,[]) do
-    men(X) -> Out=[X|In] ; Out=In).
+  include(men(X), Invitees, Men),
   % Make a list of all the women
-  (foreach(Y,Invitees), fromto(Women,Out,In,[]) do
-    women(Y) -> Out=[Y|In] ; Out=In).
+  include(women(Y), Invitees, Women),
   % Number of women and men is the same
   length(Men, NumMen),
   length(Women, NumWomen),
@@ -125,9 +124,10 @@ setup(Invitees) :-
 
   % No one dislikes anyone else
   (foreach(HatefulPerson, Invitees) do (foreach(OtherHatefulPerson, Invitees) do not(dislike(HatefulPerson, OtherHatefulPerson)))),
+
   % No mixing republicans and democrats
-  PoliticalLeaning :: [democrat, republican],
-  (foreach(PoliticalPerson, Invitees) do member(PoliticalLeaning, PoliticalPerson)).
+  PoliticalLeaning :: [democrat, republican, independent],
+  (foreach(PoliticalPerson, Invitees) do call(PoliticalLeaning, PoliticalPerson)).
 
 solve(Invitees) :-
   labeling(Invitees).
