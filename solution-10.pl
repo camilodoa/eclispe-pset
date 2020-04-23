@@ -80,25 +80,46 @@ dislike(sue, jane).
 dislike(barry, frank).
 dislike(ellen, joan).
 
-question10(Invitees, N) :-
-  N :: 0..12,
-  Day :: friday..saturday..sunday, % Not sure if this syntax is correct
+question10(Invitees, N, Day) :-
   setup(Invitees, N, Day),
-  solve(Invitees),
-  printI(Invitees).
+  solve(Invitees, N, Day),
+  printI(Invitees, N, Day).
 
 setup(Invitees, N) :-
+  % Number of people to invite
+  N :: 1..12,
+
+  % How can I create the variables in Invitees dynamically?
   Invitees = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12],
-  Invitees :: 0..1, % Everyone is either invited or not
+  % Invitees are the people we know
+  Invitees :: [tom, fred, billy, tim, frank, barry, sue, jane, betty, ellen, joan, betsy],
+  % Can't invite the same person more than twice
+  alldifferent(Invitees),
 
-  % Restriction on how many people are invited
-  X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 + X9 + X10 + X11 + X12 #= N,
-  % You could also do this by having the Invitees be a dynamically sized list of
-  % guests but I have no idea how to do that.
+  % Restrict number of people invited to N
+  length(Invitees, N),
+  % Everyone must be available on the same day
+  Day :: [friday, saturday, sunday],
+  foreach((member(Person, Invitees)), available(Person, Day)),
 
-  % Every invitee must be available on a particular day
+  % There has to be an interesting person
+  interesting(InterestingPersons),
+  member(InterestingInvitee, Invitees),
+  member(InterestingInvitee, InterestingPersons),
 
-  /*More constraints here*/.
+  % There has to be at least one funny person
+  funny(FunnyPersons),
+  member(FunnyInvitee, Invitees),
+  member(FunnyInvitee, FunnyPersons),
+
+  % Number of men and women is the same
+
+  % Everyone knows someone else
+
+  % No one dislikes anyone else
+
+  % No mixing republicans and democrats
+  .
 
 solve(Invitees) :-
   labeling(Invitees).
