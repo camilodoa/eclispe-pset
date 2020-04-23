@@ -130,7 +130,7 @@ setup(Invitees) :-
   (foreach(PoliticalPerson, Invitees) do call(PoliticalLeaning, PoliticalPerson)).
 
 solve(Invitees) :-
-  labeling(Invitees).
+  search(Invitees, 0, input_order, indomain, complete, []).
 
 printI(Invitees) :-
   foreach(member(Invitee, Invitees), printf("%3d is invited", [Invitee])).
